@@ -38,7 +38,7 @@ app.use(session({
     saveUninitialized: true,
     resave: true, 
     store: MongoStore.create({
-        mongoUrl: 'mongodb://127.0.0.1:27017/E-COM-E', // Replace with your DB connection
+        mongoUrl: 'mongodb+srv://e_com_web:2005@cluster0.6hhoa.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0', 
         collectionName: 'sessions', // Name of the collection storing sessions
         ttl: 24 * 60 * 60, // 24 hours (time-to-live in seconds)
     }),
