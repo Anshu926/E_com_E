@@ -147,7 +147,7 @@
     <div class="container-lg bg-dark text-light">
         <div class="row" id="product-container">
             <% products.forEach(product => { %>
-                <div class="col-md-4 mb-4 product-card" data-category="<%= product.category.toLowerCase() %>">
+<div class="col-md-4 mb-4 product-card" data-category="<%= product.category ? product.category.toLowerCase() : 'uncategorized' %>">
                     <div class="card" style="width: 18rem;">
                         <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
                         <div class="card-body">
