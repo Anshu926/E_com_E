@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/home.css">
+</head>
+<style> 
+    /* Flash Message Styling */
+    .flash-message {
+        position: fixed;
+        top: 10%; /* Positioned at the top of the page */
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
+        z-index: 1050;
+        max-width: 600px; /* Increased width */
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .flash-message.success {
+        background-color: rgb(60, 59, 59); /* Bootstrap green */
+        border-left: 5px solid #05fb70;
+        border-right: 5px solid #05fb70;
+    }
+
+    .flash-message.error {
+        background-color: rgb(65, 65, 65); /* Bootstrap green */
+        border-left: 5px solid #fb0505;
+        border-right: 5px solid #fb0505;
+    }
+
+    .flash-message .message-content {
+        flex-grow: 1;
+        font-size: 1.2rem; /* Slightly bigger font size */
+        color: white;
+    }
+
+    .flash-message .close-btn {
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: white;
+        border: none;
+        background: none;
+    }
+
+    .flash-message .close-btn:hover {
+        color: white;
+    }
+
+    /* Optional fade-in effect */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.8);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+
+    .flash-message.show {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="align-items: left !important;">
+                    <li class="nav-item"><a class="nav-link active" href="/home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/create">Create</a></li>
+                    <% if (current_user) { %>
+                        <li class="nav-item"><a class="nav-link active" href="/cart">Cart</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/my-orders">Orders Overview</a></li>
+                    <% } %>           
+                    <% if (!current_user) { %>
+                        <li class="nav-item"><a class="nav-link active" href="/signup">Sign-up</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="/login">Log-in</a></li>     
+                   <% } %>           
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                    <% if (current_user) { %>
+                        <form action="/logout" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-secondary" >Log out</button>
+                        </form>
+                   <% } %>
+            </div>
+        </div>
+    </nav>
+
+        <!-- Flash message popup -->
+        <% if (success_message && success_message.length > 0) { %>
+            <div class="flash-message success show" id="flashSuccessMessage">
+                <div class="message-content">
+                    <%= success_message %>
+                </div>
+                <button class="close-btn" onclick="closeFlashMessage('flashSuccessMessage')">&times;</button>
+            </div>
+        <% } %>
+    
+        <% if (error_message && error_message.length > 0) { %>
+            <div class="flash-message error show" id="flashErrorMessage">
+                <div class="message-content">
+                    <%= error_message %>
+                </div>
+                <button class="close-btn" onclick="closeFlashMessage('flashErrorMessage')">&times;</button>
+            </div>
+        <% } %>
+    
+    <h1 class="text-center my-4">Our Products</h1>
+
+    <!-- Category Filter Bar -->
+    <div class="category-bar">
+        <button class="category-toggle btn">
+            ☰ Categories
+        </button>
+        <div class="category-menu" style="background-color: rgb(231, 231, 231) !important;">
+            <div class="category-item active-category" data-category="all">All</div>
+            <div class="category-item" data-category="electronics">Electronics</div>
+            <div class="category-item" data-category="clothing">Clothing</div>
+            <div class="category-item" data-category="accessories">Accessories</div>
+            <div class="category-item" data-category="books">Books</div>
+            <div class="category-item" data-category="jewelry">Jewelry</div>
+            <div class="category-item" data-category="sports">Sports</div>
+            <div class="category-item" data-category="kids">Kids</div>
+            <div class="category-item" data-category="home appliances">Home Appliances</div>
+        </div>
+    </div>
+
+    <div class="container-lg bg-dark text-light">
+        <div class="row" id="product-container">
+            <% products.forEach(product => { %>
+                <div class="col-md-4 mb-4 product-card" data-category="<%= product.category.toLowerCase() %>">
+                    <div class="card" style="width: 18rem;">
+                        <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.name %></h5>
+                            <p class="card-text">$<%= product.price %></p>
+                            <form action="/show/<%= product.id %>" method="get">
+                                <button class="btn btn-secondary view-btn" type="submit">View Product</button>
+                            </form>
+                            <br>
+                            <p > Owner: <%= product.owner ? product.owner.firstName + " " + product.owner.lastName : 'Unknown' %></p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+    const categoryToggle = document.querySelector(".category-toggle");
+    const categoryMenu = document.querySelector(".category-menu");
+    const categoryItems = document.querySelectorAll(".category-item");
+    const productCards = document.querySelectorAll(".product-card");
+    const productContainer = document.getElementById("product-container");
+
+    // Create "No products" message element
+    const noProductsMessage = document.createElement("div");
+    noProductsMessage.className = "text-center text-dark my-4";
+    noProductsMessage.style.display = "none";
+    noProductsMessage.innerHTML = `<h3>No products available in this category.</h3>`;
+    productContainer.appendChild(noProductsMessage);
+
+    // Load selected category from localStorage (default to "all")
+    let selectedCategory = localStorage.getItem("selectedCategory") || "all";
+
+    // Apply the stored category filter
+    function applyFilter(category) {
+        categoryItems.forEach(i => i.classList.remove("active-category"));
+        document.querySelector(`[data-category="${category}"]`).classList.add("active-category");
+
+        let hasProducts = false;
+        productCards.forEach(card => {
+            const cardCategory = card.getAttribute("data-category");
+            if (category === "all" || category === cardCategory) {
+                card.style.display = "block"; // Show matching products
+                hasProducts = true;
+            } else {
+                card.style.display = "none"; // Hide non-matching products
+            }
+        });
+
+        // Show "No products" message if no products are visible
+        noProductsMessage.style.display = hasProducts ? "none" : "block";
+    }
+
+    applyFilter(selectedCategory);
+
+    // Toggle category menu
+    categoryToggle.addEventListener("click", () => {
+        categoryMenu.classList.toggle("active");
+    });
+
+    // Category selection logic
+    categoryItems.forEach(item => {
+        item.addEventListener("click", () => {
+            selectedCategory = item.getAttribute("data-category");
+            localStorage.setItem("selectedCategory", selectedCategory); // Save to localStorage
+            applyFilter(selectedCategory);
+
+            // Close menu on mobile
+            if (window.innerWidth < 768) {
+                categoryMenu.classList.remove("active");
+            }
+        });
+    });
+});
+    // Close the flash message popup
+    function closeFlashMessage(id) {
+    const flashMessage = document.getElementById(id);
+    flashMessage.style.display = 'none';
+    
+}
+    </script>
+</body>
+</html>

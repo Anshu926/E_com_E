@@ -1,0 +1,53 @@
+/* General Styles */
+body {
+    background-color: #f8f9fa !important;
+    font-family: "Roboto", sans-serif !important;
+    text-align: left !important;
+    padding: 2rem !important;
+    overflow-x: hidden !important;
+}
+
+/* Main container */
+.container {
+    max-width: 400px !important;
+    background-color: white !important;
+    padding: 2rem !important;
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Form Styles */
+.form-control {
+    font-size: 1rem !important;
+}
+
+.btn {
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+    padding: 0.75rem !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.btn:hover {
+    background-color: darkgray !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90% !important;
+        padding: 1.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95% !important;
+        padding: 1rem !important;
+    }
+
+    .btn {
+        font-size: 1rem !important;
+        padding: 0.5rem !important;
+    }
+}

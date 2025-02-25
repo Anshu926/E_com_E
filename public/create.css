@@ -1,0 +1,80 @@
+/* General styles */
+body {
+    background-color: #d2d3d4 !important;
+    font-family: "Roboto", sans-serif !important;
+    padding: 2rem !important;
+    overflow-x: hidden !important;
+}
+
+/* Form Container */
+.container {
+    max-width: 600px !important;
+    background-color: white !important;
+    padding: 2rem !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    margin: auto !important;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 1rem !important;
+}
+
+/* Labels */
+label {
+    font-weight: bold !important;
+    display: block !important;
+}
+
+/* Input Fields */
+.form-control {
+    border-radius: 5px !important;
+    border: 1px solid #ccc !important;
+    padding: 0.75rem !important;
+    font-size: 1rem !important;
+}
+
+/* Submit Button */
+.btn-primary {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    padding: 0.75rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90% !important;
+        padding: 1.5rem !important;
+    }
+    
+    .form-control {
+        font-size: 0.9rem !important;
+        padding: 0.5rem !important;
+    }
+    
+    .btn-primary {
+        font-size: 1rem !important;
+        padding: 0.6rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95% !important;
+        padding: 1rem !important;
+    }
+    
+    .btn-primary {
+        font-size: 0.9rem !important;
+        padding: 0.5rem !important;
+    }
+}

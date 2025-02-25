@@ -1,0 +1,198 @@
+/* home.css */
+body {
+     background-color: #f8f9fa !important;
+     padding-bottom: 2rem !important;
+     font-family: "Roboto", serif !important;
+     font-optical-sizing: auto !important;
+     font-weight: 400 !important;
+     overflow-x: hidden !important;
+ }
+ 
+ .container-lg {
+     padding-top: 30px !important;
+     padding-bottom: 30px !important;
+     padding: 2rem !important;
+     border-radius: 1rem !important;
+     background-color: rgb(231, 231, 231) !important;
+     margin: auto !important;
+ }
+ 
+ .row {
+     display: flex !important;
+     flex-wrap: wrap !important;
+     justify-content: left !important;
+     align-items: center !important;
+ }
+ 
+ .card {
+     display: flex !important;
+     flex-direction: column !important;
+     justify-content: space-between !important;
+     height: 100% !important;
+     width: 100% !important;
+     max-width: 24rem !important;
+     max-height: 65vh !important;
+     border-radius: 8px !important;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+     transition: transform 0.3s ease !important;
+     padding: 1.2rem !important;
+     transition: 0.5s !important;
+     padding-bottom: 1rem !important;
+     border-radius: 1rem !important;
+ }
+
+ .card{
+    transform: translateY(-10px) !important;
+ }
+ 
+ .card:hover {
+     transform: translateY(-5px) !important;
+ }
+ 
+ .card-title {
+     font-size: 1.25rem !important;
+     font-weight: bold !important;
+     margin-bottom: 10px !important;
+ }
+ 
+ .card-text {
+     font-size: 1rem !important;
+     color: #6c757d !important;
+ }
+ 
+ .card-body {
+     background-color: #ffffff !important;
+     padding: 15px !important;
+     display: flex !important;
+     flex-direction: column !important;
+     justify-content: space-between !important;
+     height: 100% !important;
+ }
+ 
+ .card-img-top {
+     object-fit: cover !important;
+     height: 225px !important;  /* Set a fixed height for all images */
+     width: 100% !important;
+     border-radius: 1rem !important;
+     transition: 0.5s !important;
+ }
+ .card-img-top:hover{
+    transform: translateY(-10px) !important;
+ }
+
+ @media (max-width: 1200px) {
+     .col-md-4 {
+         flex: 0 0 30% !important;
+     }
+ }
+ 
+ @media (max-width: 992px) {
+     .col-md-4 {
+         flex: 0 0 45% !important;
+     }
+ }
+ 
+ @media (max-width: 768px) {
+     .col-md-4 {
+         flex: 0 0 100% !important;
+     }
+ }
+ .view-btn{
+    font-family: "Roboto", serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 400 !important;
+ }
+
+ .category-marquee {
+    display: flex;
+    justify-content: center;
+    background: #343a40;
+    padding: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.category-list {
+    display: flex;
+    gap: 15px;
+}
+
+.category-item {
+    padding: 10px 15px;
+    background: #6c757d;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.category-item:hover, .active-category {
+    background: #007bff;
+}
+/* Category Bar */
+.category-bar {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.category-toggle {
+    font-size: 18px;
+    padding: 10px 15px;
+    background: #343a40;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.category-menu {
+    display: none;
+    background: #343a40;
+    padding: 10px;
+    border-radius: 1rem;
+    border: 2px solid darkgray;
+    gap: 2.5rem !important;
+}
+
+.category-menu .category-item {
+    padding: 10px;
+    background: transparent;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    border-bottom-right-radius: 0%;
+    border-bottom-left-radius: 0%;
+    font-weight: 800;
+}
+
+.category-menu .category-item:hover, .active-category {
+    color: #007bff !important;
+    border-bottom: 1px solid #007bff;
+    border-bottom-right-radius: 0%;
+    border-bottom-left-radius: 0%;
+}
+
+/* Show menu when active */
+.category-menu.active {
+    display: block;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .category-toggle {
+        display: none;
+    }
+    .category-menu {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        background: none;
+        padding: 0;
+    }
+    .category-item {
+        display: inline-block;
+        margin: 0 10px;
+    }
+}

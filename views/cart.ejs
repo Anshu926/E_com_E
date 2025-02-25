@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="/cart.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+     /* Flash Message Styling */
+     .flash-message {
+        position: fixed;
+        top: 10%; /* Positioned at the top of the page */
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
+        z-index: 1050;
+        max-width: 600px; /* Increased width */
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .flash-message.success {
+        background-color: rgb(60, 59, 59); /* Bootstrap green */
+        border-left: 5px solid #05fb70;
+        border-right: 5px solid #05fb70;
+    }
+
+    .flash-message.error {
+        background-color: rgb(65, 65, 65); /* Bootstrap green */
+        border-left: 5px solid #fb0505;
+        border-right: 5px solid #fb0505;
+    }
+
+    .flash-message .message-content {
+        flex-grow: 1;
+        font-size: 1.2rem; /* Slightly bigger font size */
+        color: white;
+    }
+
+    .flash-message .close-btn {
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: white;
+        border: none;
+        background: none;
+    }
+
+    .flash-message .close-btn:hover {
+        color: white;
+    }
+
+    /* Optional fade-in effect */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.8);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+
+    .flash-message.show {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif !important;
+    background-color: #f8f9fa !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.container {
+    padding: 20px !important;
+}
+
+/* Table Layout (for large screens) */
+.table-responsive {
+    display: block !important;
+}
+
+/* Order Cards (for small screens) */
+@media (max-width: 768px) {
+    .table-responsive {
+        display: none !important;
+    }
+
+    .order-card {
+        background: white !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .order-card img {
+        width: 100px !important;
+        height: auto !important;
+        border-radius: 5px !important;
+    }
+
+    .order-card .order-details {
+        flex-grow: 1 !important;
+        padding-left: 10px !important;
+    }
+
+    .order-card .badge {
+        font-size: 14px !important;
+    }
+
+    .order-card .btn {
+        font-size: 14px !important;
+        padding: 5px 10px !important;
+    }
+}
+.box{
+    background-color: rgb(242, 242, 242) !important;
+    padding: 0.5rem !important;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 1rem;
+}
+.box .picture{ 
+    background-color: rgb(0, 0, 0) !important;
+    width: 80%;
+    border-radius: 1rem;
+}
+.box .info{
+    background-color: rgb(233, 233, 233) !important;
+    padding: 1.2rem !important;
+    width: 95%;
+    border-radius: 1rem;
+}
+
+</style>
+<body>
+     <!-- Flash message popup -->
+     <% if (success_message && success_message.length > 0) { %>
+        <div class="flash-message success show" id="flashSuccessMessage">
+            <div class="message-content">
+                <%= success_message %>
+            </div>
+            <button class="close-btn" onclick="closeFlashMessage('flashSuccessMessage')">&times;</button>
+        </div>
+    <% } %>
+
+    <% if (error_message && error_message.length > 0) { %>
+        <div class="flash-message error show" id="flashErrorMessage">
+            <div class="message-content">
+                <%= error_message %>
+            </div>
+            <button class="close-btn" onclick="closeFlashMessage('flashErrorMessage')">&times;</button>
+        </div>
+    <% } %>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Your Orders, <%= user.firstName %> <%= user.lastName %></h2>
+        <% if (orders.length === 0) { %>
+            <div class="alert alert-info text-center">Your cart is empty.</div>
+        <% } else { %>
+            <div class="table-responsive d-none d-md-block">
+                <table class="table table-bordered table-hover text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Order Date</th>
+                            <th>Action</th>
+                            <th>Shipping Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let totalInvestment = 0; %>
+                        <% orders.forEach(order => { %>
+                            <% totalInvestment += order.totalAmount; %>
+                            <tr>
+                                <td>
+                                    <% if (order.product) { %>
+                                        <img src="<%= order.product.image %>" alt="Product Image" class="img-thumbnail" width="80">
+                                        <br>
+                                        <%= order.product.name %>
+                                    <% } else { %>
+                                        <span class="text-muted">Product Unavailable</span>
+                                    <% } %>                                    
+                                    <br>
+                                </td>
+                                <td><%= order.quantity %></td>
+                                <td>₹<%= order.totalAmount.toFixed(2) %></td>
+                                <td>
+                                    <span class="badge bg-<%= order.status === 'Delivered' ? 'success' : order.status === 'Pending' ? 'warning' : 'primary' %>">
+                                        <%= order.status %>
+                                    </span>
+                                </td>
+                                <td><%= new Date(order.createdAt).toLocaleDateString() %></td>
+                                <td>
+                                    <% if (order.status === 'Pending') { %>
+                                        <form action="/cancel-order/<%= order._id %>?_method=DELETE" method="POST">
+                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                        </form>  
+                                    <% } else { %>
+                                        <button class="btn btn-secondary btn-sm" disabled>Not Cancellable</button>
+                                    <% } %>
+                                </td>
+                                <td><%= order.address %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Orders in card format for small screens -->
+            <div class="d-md-none">
+                <% orders.forEach(order => { %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center box">
+                                <img src="<%= order.product.image %>" alt="Product Image" class="img-thumbnail picture" width="80">
+                                <div class="ms-2 info">
+                                    <h5 class="card-title"><strong><%= order.product.name %></strong></h5>
+                                    <br>
+                                    <p class="card-text">Quantity: <%= order.quantity %></p>
+                                    <p class="card-text">Total: ₹<%= order.totalAmount.toFixed(2) %></p>
+                                    <p class="card-text">Status: <span class="badge bg-<%= order.status === 'Delivered' ? 'success' : order.status === 'Pending' ? 'warning' : 'primary' %>"><%= order.status %></span></p>
+                                    <p class="card-text">Order Date: <%= new Date(order.createdAt).toLocaleDateString() %></p>
+                                    <p class="card-text">Shipping Address: <%= order.address %></p>
+                                    <% if (order.status === 'Pending') { %>
+                                        <form action="/cancel-order/<%= order._id %>?_method=DELETE" method="POST">
+                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                        </form>  
+                                    <% } else { %>
+                                        <button class="btn btn-secondary btn-sm" disabled>Not Cancellable</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary text-center mt-4">
+                <h4>Total Investment:</h4>
+                <div class="total">₹<%= totalInvestment.toFixed(2) %></div>
+            </div>
+        <% } %>
+
+        <div class="text-center mt-4">
+            <a href="/home" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+         // Close the flash message popup
+    function closeFlashMessage(id) {
+    const flashMessage = document.getElementById(id);
+    flashMessage.style.display = 'none';
+    
+}
+    </script>
+</body>
+</html>

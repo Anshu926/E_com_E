@@ -1,0 +1,120 @@
+/* General Styles */
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+    /* Flash Message Styling */
+    .flash-message {
+        text-align: center !important;
+        position: fixed;
+        top: 10%; /* Positioned at the top of the page */
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
+        z-index: 1050;
+        max-width: 600px; /* Increased width */
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .flash-message.success {
+        background-color: rgb(60, 59, 59); /* Bootstrap green */
+        border-left: 5px solid #05fb70;
+        border-right: 5px solid #05fb70;
+    }
+
+    .flash-message.error {
+        background-color: rgb(65, 65, 65); /* Bootstrap green */
+        border-left: 5px solid #fb0505;
+        border-right: 5px solid #fb0505;
+    }
+
+    .flash-message .message-content {
+        flex-grow: 1;
+        font-size: 1.2rem; /* Slightly bigger font size */
+        color: white;
+    }
+
+    .flash-message .close-btn {
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: white;
+        border: none;
+        background: none;
+    }
+
+    .flash-message .close-btn:hover {
+        color: white;
+    }
+
+    /* Optional fade-in effect */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.8);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+
+    .flash-message.show {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+/* Form Container */
+.container {
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem !important;
+}
+
+/* Login Form */
+#loginForm {
+    background-color: #f6f4f4;
+    padding: 2rem;
+    border-radius: 1rem !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .flash-message {
+        max-width: 90%;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    #loginForm {
+        padding: 1.5rem;
+    }
+
+    .flash-message {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+}
